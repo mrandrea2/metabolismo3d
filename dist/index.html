@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Esplora in 3D glicolisi, ciclo di Krebs e fosforilazione ossidativa.">
+  <meta name="theme-color" content="#f5f4fa">
+  <meta name="author" content="Prof. Andrea Bertelli">
+  <title>Metabolismo 3D · Laboratorio interattivo</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231b1740'/%3E%3Cpath d='M18 4 8 18h7l-1 10 10-14h-7z' fill='%23b8aaff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-content">
+      <a class="brand" href="./" aria-label="Liceo Galileo Galilei di Verona, inizio di Metabolismo 3D">
+        <span class="brand-logo"><img src="assets/logo-galilei.jpeg" width="447" height="447" alt=""></span>
+        <span class="brand-name"><span>Liceo scientifico</span><strong>Galileo Galilei</strong></span>
+      </a>
+      <p class="credit">Creato dal prof. <strong>Andrea Bertelli</strong></p>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">Laboratorio 3D</p>
+      <h1 id="page-title">La vita ha bisogno<br>di <em>energia.</em></h1>
+      <p>Metabolismo energetico · Entra nella cellula e segui il viaggio dal glucosio all’ATP.</p>
+    </section>
+
+    <nav class="phases" aria-label="Fasi del metabolismo">
+      <button class="phase selected" type="button" data-phase="glycolysis" aria-current="step"><span>01</span> Glicolisi</button>
+      <button class="phase" type="button" data-phase="krebs"><span>02</span> Ciclo di Krebs</button>
+      <button class="phase" type="button" data-phase="oxidative"><span>03</span> Fosforilazione ossidativa</button>
+    </nav>
+
+    <div class="workspace">
+      <section class="viewer panel" aria-label="Modello tridimensionale e animazione">
+        <div class="stage">
+          <canvas id="scene" tabindex="0" role="img" aria-label="Modello 3D interattivo" aria-describedby="scene-hint">Il modello interattivo richiede un browser con Canvas. Le spiegazioni sono disponibili nel pannello accanto.</canvas>
+          <div class="overlay">
+            <div class="location"><span></span><strong id="location">Citosol</strong></div>
+            <div class="view-tools">
+              <button type="button" id="zoom-in" aria-label="Ingrandisci modello" title="Ingrandisci"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+              <button type="button" id="zoom-out" aria-label="Riduci modello" title="Riduci"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+              <button type="button" id="reset-view" aria-label="Ripristina vista 3D" title="Ripristina vista"><svg viewBox="0 0 24 24"><path d="M8 4H4v4m12-4h4v4m0 8v4h-4M4 16v4h4"/><circle cx="12" cy="12" r="2.5"/></svg></button>
+            </div>
+            <div class="scene-hint" id="scene-hint">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3m12-6 3 3-3 3"/></svg>
+              <span class="pointer-hint">Trascina per ruotare · Scorri per zoomare</span><span class="touch-hint">Trascina per ruotare · Pizzica per zoomare</span>
+              <span class="sr-only">Da tastiera usa le frecce per ruotare e i tasti più e meno per zoomare.</span>
+            </div>
+            <span class="scale">Schema fuori scala</span>
+          </div>
+        </div>
+        <div class="transport">
+          <button type="button" id="play" class="play" aria-label="Avvia animazione"></button>
+          <div class="timeline">
+            <div class="timeline-header"><label for="progress">Animazione</label><span id="step-counter"></span></div>
+            <input type="range" id="progress" min="0" max="1000" value="0" aria-label="Avanzamento dell’animazione">
+            <div class="markers" id="markers"></div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="details panel" aria-labelledby="phase-title">
+        <div class="details-top">
+          <p class="phase-count" id="phase-count"></p>
+          <h2 id="phase-title"></h2>
+          <p class="phase-summary" id="phase-summary"></p>
+        </div>
+        <div class="step-card" aria-live="polite" aria-atomic="true">
+          <p class="step-label" id="step-label"></p>
+          <h3 id="step-title"></h3>
+          <p id="step-text"></p>
+        </div>
+        <div class="legend" id="legend" aria-label="Legenda del modello"></div>
+        <div class="step-navigation" aria-label="Navigazione tra i passaggi">
+          <button type="button" id="previous-step"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></svg> Indietro</button>
+          <button type="button" id="next-step">Avanti <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></svg></button>
+        </div>
+      </aside>
+    </div>
+
+    <section class="balance panel" aria-labelledby="balance-title">
+      <div class="balance-heading"><h2 id="balance-title">Bilancio della fase</h2><p id="balance-unit"></p></div>
+      <dl class="metrics" id="metrics"></dl>
+    </section>
+<section class="deep-dive" aria-labelledby="explore-title">
+<div class="deep-heading"><p class="eyebrow">Oltre il modello</p><h2 id="explore-title">Capire cosa accade.<br>Scoprire perché conta.</h2><p>Apri una domanda e collega le animazioni alla biologia della vita quotidiana.</p></div>
+<div class="questions">
+<details open><summary>Perché la cellula produce ATP?</summary><p>L’ATP collega le reazioni che liberano energia a quelle che la richiedono. La sua idrolisi può essere accoppiata al trasporto di sostanze, alla sintesi di molecole e alla contrazione muscolare. L’ADP che ne deriva viene continuamente riconvertito in ATP.</p><p><strong>Immagina un ciclo di ricarica.</strong> Le riserve immediate sono limitate e il ricambio è continuo. Il glucosio è uno dei combustibili da cui la cellula ricava energia per questa ricarica.</p></details>
+<details><summary>Che cosa trasportano NADH e FADH₂?</summary><p>Durante l’ossidazione dei nutrienti alcuni elettroni passano ai coenzimi NAD⁺ e FAD. Le forme ridotte NADH e FADH₂ permettono di trasferire questi elettroni alla catena respiratoria. Qui il loro passaggio verso l’ossigeno libera energia utilizzabile per pompare protoni.</p><p>NADH e FADH₂ entrano nella catena attraverso vie diverse. Per questo il rendimento medio è diverso: circa 2,5 ATP per NADH mitocondriale e circa 1,5 per gli elettroni che entrano attraverso FADH₂.</p></details>
+<details><summary>Perché abbiamo bisogno di ossigeno?</summary><p>L’ossigeno accoglie gli elettroni alla fine della catena respiratoria e contribuisce alla formazione di acqua. Quando manca, il trasferimento degli elettroni rallenta fino a fermarsi e diventa difficile rigenerare i coenzimi ossidati necessari alle reazioni precedenti.</p><p>La glicolisi può continuare se viene rigenerato NAD⁺. Nelle cellule umane la trasformazione del piruvato in lattato svolge questa funzione, permettendo di ottenere i 2 ATP netti della glicolisi.</p></details>
+<details><summary>Come fa un gradiente a produrre ATP?</summary><p>I complessi I, III e IV spostano protoni dalla matrice allo spazio intermembrana. Si crea una differenza sia di concentrazione sia di carica elettrica. Questa energia potenziale è chiamata forza proton-motrice.</p><p>Il ritorno degli H⁺ attraverso l’ATP sintasi mette in rotazione parte dell’enzima. I cambiamenti della sua struttura favoriscono la sintesi di ATP da ADP e fosfato. Questo accoppiamento si chiama chemiosmosi.</p></details>
+<details><summary>Quanta energia ricaviamo da un glucosio?</summary><p>Un bilancio indicativo per una cellula eucariotica è circa 30–32 ATP. La glicolisi fornisce 2 ATP netti, due giri di Krebs forniscono 2 GTP o ATP e la fosforilazione ossidativa contribuisce con circa 26–28 ATP.</p><p>La resa varia con i sistemi che trasferiscono gli elettroni del NADH citosolico nel mitocondrio e con le condizioni cellulari. Parte dell’energia viene dispersa come calore.</p></details>
+<details><summary>Che cosa cambia durante l’attività fisica?</summary><p>Quando i muscoli lavorano, aumenta la richiesta di ATP. Fosfocreatina, glicolisi e metabolismo ossidativo contribuiscono contemporaneamente, con un peso che varia in base a intensità e durata dello sforzo.</p><p>Negli sforzi intensi la glicolisi può fornire ATP rapidamente. Durante attività prolungate cresce l’importanza della produzione ossidativa, che usa anche combustibili derivati dai grassi. Il lattato può essere trasportato e utilizzato come combustibile da altri tessuti.</p></details>
+</div>
+<div class="reading"><strong>Per approfondire</strong><p>Le animazioni sono schemi didattici fuori scala. I passaggi raggruppano più reazioni e i movimenti illustrano il processo.</p><a href="https://openstax.org/books/biology-2e/pages/7-introduction" target="_blank" rel="noopener">OpenStax · Respirazione cellulare e metabolismo →</a></div>
+</section>
+    <footer class="footer">
+      <span>Fonte didattica <span aria-hidden="true">·</span> <a id="source" href="https://openstax.org/books/biology-2e/pages/7-2-glycolysis" target="_blank" rel="noopener noreferrer">OpenStax, Biology 2e</a></span>
+    </footer>
+  </main>
+</body>
+</html>
