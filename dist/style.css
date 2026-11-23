@@ -163,3 +163,34 @@ svg { display: block; width: 1em; height: 1em; fill: none; stroke: currentColor;
 .reading p {margin:6px 0 12px}
 .reading a {font-weight:650;text-underline-offset:4px}
 @media(max-width:780px){.deep-dive{grid-template-columns:1fr;gap:15px;margin-top:42px}.intro{padding:28px 0}.stage{min-height:340px}.deep-heading h2{font-size:2.3rem}.questions summary{padding:18px}.questions p{margin:17px 18px}.reading{padding:20px}}
+
+/* An illustrated introduction locates each phase before the 3D exploration. */
+body { background: #f5f3ee; }
+.atlas-intro { display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:3%;margin:22px 0;padding:clamp(21px,3.8vw,55px);border-radius:22px;background:radial-gradient(ellipse at 88% 42%,#353456,transparent 60%),#191c2c;color:#faf8f1; }
+.atlas-kicker { margin:0 0 12px;font-size:.86rem;font-weight:720;letter-spacing:.07em;text-transform:uppercase;color:#d4c3ff; }
+.atlas-copy h1 { font:normal clamp(3rem,5.6vw,5.7rem)/.95 Georgia,serif;letter-spacing:-.055em;margin:0; }
+.atlas-copy h1 em { color:#d5c5ff;font-weight:normal; }
+.atlas-copy > p:not(.atlas-kicker) { max-width:45ch;font-size:clamp(1rem,1.4vw,1.22rem);line-height:1.52;color:#e3e0e9; }
+.start-link { display:inline-flex;align-items:center;gap:15px;padding:11px 17px;background:#d9ceff;color:#221b39;border-radius:8px;text-decoration:none;font-weight:750; }
+.start-link:hover { background:white; }
+.atlas-map { margin:0;min-width:0; }
+.anatomy { width:100%;height:auto;fill:initial;stroke:none; }
+.atlas-map figcaption { display:flex;gap:8px;justify-content:space-between;border-top:1px solid #676477;padding-top:10px;color:#ebe8f3;font-size:.85rem; }
+.atlas-map figcaption span {color:#c6c2d3;}
+#laboratorio {scroll-margin-top:12px;}
+.phase {justify-content:center;}
+.stage {min-height:420px;}
+.challenge { margin:22px 0 0;padding:clamp(19px,3vw,38px);display:grid;grid-template-columns:1fr 1.2fr;gap:26px;border-radius:16px;background:#e8e4f6;border:1px solid #cec7e1; }
+.challenge .atlas-kicker {color:#524076;}
+.challenge h2 {font:normal clamp(1.65rem,2.8vw,2.65rem)/1.12 Georgia,serif;letter-spacing:-.04em;margin:0;max-width:23ch;}
+#answers {display:grid;gap:7px;counter-reset:answer;}
+#answers button {display:flex;align-items:center;gap:12px;text-align:left;padding:10px 14px;border:1px solid #c9c3d6;background:#fff;border-radius:8px;min-height:46px;font-size:1.05rem;}
+#answers button::before {counter-increment:answer;content:counter(answer,upper-alpha);font-weight:750;color:#655383;}
+#answers button:hover {border-color:#69528b;}
+#answers button[data-result="correct"] {background:#d9f5e7;border-color:#3d8465;}
+#answers button[data-result="retry"] {background:#fff0d7;border-color:#ac7838;}
+#feedback {font-size:1.04rem;line-height:1.55;margin:14px 0;}
+#feedback:empty {display:none;}
+#see-proof {margin-top:12px;border:0;background:transparent;color:#503580;text-decoration:underline;text-underline-offset:3px;font-weight:700;padding:6px 0;text-align:left;}
+.deep-heading h2 {font-family:Georgia,serif;font-weight:normal;}
+@media(max-width:780px){.atlas-intro,.challenge{grid-template-columns:1fr;gap:19px}.atlas-intro{margin:14px 0}.atlas-map{width:min(100%,480px);justify-self:center}.atlas-map figcaption{font-size:.78rem}.atlas-copy h1 br{display:none}.atlas-copy h1 em::before{content:" "}.stage{min-height:340px}.challenge h2{max-width:none}}
