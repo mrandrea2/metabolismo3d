@@ -1,3 +1,4 @@
+import { challenges, showChallenge } from "./challenges.js";
 import { phases } from "./phases.js";
 import { createRenderer } from "./scene.js";
 
@@ -84,6 +85,7 @@ function setPlaying(value) {
 function changePhase(key) {
   active = key;
   phase = phases[key];
+  showChallenge(key, phase.title);
   elapsed = 0;
   shownStep = -1;
   view = { ...phase.camera };
@@ -185,6 +187,12 @@ canvas.addEventListener("keydown", event => {
     default: return;
   }
   event.preventDefault();
+});
+byId("see-proof").addEventListener("click", () => {
+  seek(challenges[active].step * duration);
+  canvas.focus({ preventScroll: true });
+  byId("laboratorio").scrollIntoView({ block: "start" });
+  setPlaying(true);
 });
 new ResizeObserver(requestPaint).observe(canvas);
 changePhase("glycolysis");
